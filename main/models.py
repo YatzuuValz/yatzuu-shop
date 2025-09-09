@@ -5,30 +5,31 @@ from django.db import models
 
 class Product(models.Model):
     CATEGORY_CHOICES = [
-        ('transfer', 'Transfer'),
-        ('update', 'Update'),
-        ('exclusive', 'Exclusive'),
-        ('match', 'Match'),
-        ('rumor', 'Rumor'),
-        ('analysis', 'Analysis'),
+        ('jersey', 'Jersey'),
+        ('boots', 'Football Boots'),
+        ('ball', 'Football'),
+        ('accessory', 'Accessories'),
+        ('training', 'Training Equipment'),
+        ('merch', 'Merchandise'),
     ]
-    
-    name = models.CharField()
-    price = models.IntegerField()
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=255)
+    price = models.IntegerField(default=0)
     description = models.TextField()
-    thumbnail = models.URLField()
-    category = models.CharField()
-    rating = models.IntegerField()
-    is_featured = models.BooleanField()
+    thumbnail = models.URLField(blank=True, null=True)
+    category = models.CharField(max_length=20,choices=CATEGORY_CHOICES,default='update')
+    rating = models.IntegerField(default=0)
+    item_views = models.PositiveIntegerField(default=0)
+    is_featured = models.BooleanField(default=False)
 
     
     def __str__(self):
-        return self.title
+        return self.name
     
     @property
-    def is_news_hot(self):
-        return self.news_views > 20
+    def is_recommended(self):
+        return self.is_featured > 4
         
     def increment_views(self):
-        self.news_views += 1
+        self.item_views += 1
         self.save()
