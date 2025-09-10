@@ -1,5 +1,5 @@
 # Yatzuu-Shop
-Link: [https://yahya-muhandar-footballshop.pbp.cs.ui.ac.id](https://yahya-muhandar-footballshop.pbp.cs.ui.ac.id)
+Link: [https://yahya-muhandar-yatzuushop.pbp.cs.ui.ac.id](https://yahya-muhandar-yatzuushop.pbp.cs.ui.ac.id)
 ---
 ### 1. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
 step by step yang saya lakukan adalah seagai berikut:
