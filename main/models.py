@@ -12,7 +12,7 @@ class Product(models.Model):
         ('training', 'Training Equipment'),
         ('merch', 'Merchandise'),
     ]
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     name = models.CharField(max_length=255)
     price = models.IntegerField(default=0)
     description = models.TextField()
@@ -28,7 +28,7 @@ class Product(models.Model):
     
     @property
     def is_recommended(self):
-        return self.is_featured > 4
+        return self.rating > 4
         
     def increment_views(self):
         self.item_views += 1
