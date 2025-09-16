@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-!1_fkrt-^02l!n+r06k&_4zhzw+&mogqn(xl2$j&6q5ftxvc3%
 PRODUCTION = os.getenv('PRODUCTION', 'False').lower() == 'true'
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1",'yahya-muhandar-yatzuushop.pbp.cs.ui.ac.id',]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1","yahya-muhandar-yatzuushop.pbp.cs.ui.ac.id",]
 CSRF_TRUSTED_ORIGINS = [
     "https://yahya-muhandar-yatzuushop.pbp.cs.ui.ac.id"
 ]

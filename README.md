@@ -1,5 +1,44 @@
 # Yatzuu-Shop
 Link: [https://yahya-muhandar-yatzuushop.pbp.cs.ui.ac.id](https://yahya-muhandar-yatzuushop.pbp.cs.ui.ac.id)
+
+# tugas 3
+### 1. Jelaskan mengapa kita memerlukan data delivery dalam pengimplementasian sebuah platform?
+Data delivery diperlukan agar data bisa dikirim dan diterima dengan format yang konsisten antara client, server, dan layanan lain. Ini memungkinkan interaksi pengguna yang dinamis, pemisahan logika dan tampilan, integrasi antar sistem, menjaga keamanan, serta memudahkan pengembangan dan skalabilitas platform.
+
+---
+### 2.Menurutmu, mana yang lebih baik antara XML dan JSON? Mengapa JSON lebih populer dibandingkan XML?
+Menurut saya, JSON lebih mudah dibaca karena strukturnya mirip objek, tidak seperti XML yang terlihat seperti HTML. Sementara itu, JSON lebih populer dibandingkan XML karena formatnya lebih ringkas, mudah dibaca, cepat diproses oleh JavaScript tanpa parsing tambahan, dan lebih efisien untuk pertukaran data, sedangkan XML biasanya hanya dipakai untuk sistem lama atau kebutuhan struktur dokumen yang lebih kompleks.
+---
+### 3.Jelaskan fungsi dari method is_valid() pada form Django dan mengapa kita membutuhkan method tersebut?
+Method is_valid() pada form Django berfungsi untuk memeriksa apakah data yang dikirim melalui form sudah lengkap dan sesuai format yang ditentukan; jika valid akan mengembalikan True dan menyimpan data bersih di cleaned_data, sedangkan jika tidak valid akan mengembalikan False serta menyimpan pesan error. Kita memerlukan method ini untuk memastikan keamanan, menjaga kualitas data yang masuk ke database, memberikan umpan balik kesalahan kepada pengguna, dan memudahkan pengembang karena Django sudah menyediakan mekanisme validasi otomatis.
+---
+### 4.Mengapa kita membutuhkan csrf_token saat membuat form di Django? Apa yang dapat terjadi jika kita tidak menambahkan csrf_token pada form Django? Bagaimana hal tersebut dapat dimanfaatkan oleh penyerang?
+Kita membutuhkan {% csrf_token %} untuk melindungi aplikasi dari serangan Cross-Site Request Forgery (CSRF), yaitu serangan yang memanfaatkan sesi login pengguna untuk melakukan aksi tanpa sepengetahuan mereka. Token ini memastikan setiap permintaan POST benar-benar berasal dari form sah di situs kita, bukan dari situs berbahaya.
+
+Jika kita tidak menambahkan csrf_token, Django secara default akan menolak permintaan POST tersebut dan menampilkan error 403 Forbidden karena menganggap request tidak sah. Namun, jika proteksi CSRF dinonaktifkan atau dilewati, form akan menjadi rentan terhadap serangan.
+
+Penyerang dapat membuat halaman web jahat yang secara diam-diam mengirim permintaan ke server menggunakan cookie sesi pengguna yang masih aktif. Dengan cara ini, mereka bisa memanfaatkan akun korban untuk melakukan aksi berbahaya seperti mengubah data, menghapus akun, atau bahkan melakukan transaksi tanpa izin.
+---
+### 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+1. buat directori `templates` di directory utama dan tambahkan file `base.html`
+2. tambahkan pada `settings.py` di variable TEMPLATES untuk backend, dirs,app_dirs agar `base.html` terdeteksi
+3. tambahkan kode ini pada awal dan akhir `main.html` agar menjadi menandakan itu akan digunakan di `base.html`
+   ```bash
+      {% extends 'base.html' %}
+      {% block content %}
+
+      {% endblock content %}
+   ```
+4. buat file `forms.py` dan buat class untuk form dan model yang digunakan serta fields yang ada pada model itu
+5. tambahkan function create_product dan show_product pada `views.py`
+6. tambahkan path pada `urls.py` di variable urlpatterns untuk routing
+7. sesuaikan `main.html` agar dapat menunjukan product yang sudah di add
+8. membuat berkas html `create_product.html` dan `product_detail.html` untuk page yang dibuka ketika user menuju ke salah satu path yang sudah kita tambahkan di `urls.py`
+9. menambahkan variable `CSRF_TRUSTED_ORIGINS` pada file settings.py agar dapat melakukan POST dan untuk keamanan
+10. menambahkan function `show_xml` dan `show_json` dan menambahkan path nya
+11. menambahkan function `show_xml_by_id` dan `show_json_by_id` dan menambahkan path nya
+
+# tugas2
 ---
 ### 1. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
 step by step yang saya lakukan adalah seagai berikut:
