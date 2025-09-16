@@ -15,9 +15,5 @@ class Migration(migrations.Migration):
             name='item_views',
             field=models.PositiveIntegerField(default=0),
         ),
-        migrations.AlterField(
-            model_name='product',
-            name='id',
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID'),
-        ),
+        
     ]
