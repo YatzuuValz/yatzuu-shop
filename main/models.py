@@ -19,7 +19,7 @@ class Product(models.Model):
     thumbnail = models.URLField(blank=True, null=True)
     category = models.CharField(max_length=20,choices=CATEGORY_CHOICES,default='update')
     rating = models.IntegerField(default=0)
-    item_views = models.PositiveIntegerField(default=0)
+
     
     is_featured = models.BooleanField(default=False)
 
