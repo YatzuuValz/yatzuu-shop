@@ -12,7 +12,7 @@ class Product(models.Model):
         ('training', 'Training Equipment'),
         ('merch', 'Merchandise'),
     ]
-    # id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
+    id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     name = models.CharField(max_length=255)
     price = models.IntegerField(default=0)
     description = models.TextField()
