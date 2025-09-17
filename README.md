@@ -8,9 +8,11 @@ Data delivery diperlukan agar data bisa dikirim dan diterima dengan format yang 
 ---
 ### 2.Menurutmu, mana yang lebih baik antara XML dan JSON? Mengapa JSON lebih populer dibandingkan XML?
 Menurut saya, JSON lebih mudah dibaca karena strukturnya mirip objek, tidak seperti XML yang terlihat seperti HTML. Sementara itu, JSON lebih populer dibandingkan XML karena formatnya lebih ringkas, mudah dibaca, cepat diproses oleh JavaScript tanpa parsing tambahan, dan lebih efisien untuk pertukaran data, sedangkan XML biasanya hanya dipakai untuk sistem lama atau kebutuhan struktur dokumen yang lebih kompleks.
+
 ---
 ### 3.Jelaskan fungsi dari method is_valid() pada form Django dan mengapa kita membutuhkan method tersebut?
 Method is_valid() pada form Django berfungsi untuk memeriksa apakah data yang dikirim melalui form sudah lengkap dan sesuai format yang ditentukan; jika valid akan mengembalikan True dan menyimpan data bersih di cleaned_data, sedangkan jika tidak valid akan mengembalikan False serta menyimpan pesan error. Kita memerlukan method ini untuk memastikan keamanan, menjaga kualitas data yang masuk ke database, memberikan umpan balik kesalahan kepada pengguna, dan memudahkan pengembang karena Django sudah menyediakan mekanisme validasi otomatis.
+
 ---
 ### 4.Mengapa kita membutuhkan csrf_token saat membuat form di Django? Apa yang dapat terjadi jika kita tidak menambahkan csrf_token pada form Django? Bagaimana hal tersebut dapat dimanfaatkan oleh penyerang?
 Kita membutuhkan {% csrf_token %} untuk melindungi aplikasi dari serangan Cross-Site Request Forgery (CSRF), yaitu serangan yang memanfaatkan sesi login pengguna untuk melakukan aksi tanpa sepengetahuan mereka. Token ini memastikan setiap permintaan POST benar-benar berasal dari form sah di situs kita, bukan dari situs berbahaya.
@@ -18,6 +20,7 @@ Kita membutuhkan {% csrf_token %} untuk melindungi aplikasi dari serangan Cross-
 Jika kita tidak menambahkan csrf_token, Django secara default akan menolak permintaan POST tersebut dan menampilkan error 403 Forbidden karena menganggap request tidak sah. Namun, jika proteksi CSRF dinonaktifkan atau dilewati, form akan menjadi rentan terhadap serangan.
 
 Penyerang dapat membuat halaman web jahat yang secara diam-diam mengirim permintaan ke server menggunakan cookie sesi pengguna yang masih aktif. Dengan cara ini, mereka bisa memanfaatkan akun korban untuk melakukan aksi berbahaya seperti mengubah data, menghapus akun, atau bahkan melakukan transaksi tanpa izin.
+
 ---
 ### 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
 1. buat directori `templates` di directory utama dan tambahkan file `base.html`
@@ -38,9 +41,12 @@ Penyerang dapat membuat halaman web jahat yang secara diam-diam mengirim permint
 10. menambahkan function `show_xml` dan `show_json` dan menambahkan path nya
 11. menambahkan function `show_xml_by_id` dan `show_json_by_id` dan menambahkan path nya
 
-### 5. Apakah ada feedback untuk asdos di tutorial 2 yang sudah kalian kerjakan?
+---
+### 6. Apakah ada feedback untuk asdos di tutorial 2 yang sudah kalian kerjakan?
 Mungkin untuk feedback dari saya, penjelasan tentang csrf_token di Tutorial 2 terasa terlalu singkat, sehingga beberapa mahasiswa mungkin tidak sepenuhnya memahami fungsinya atau alasan penggunaannya. Akan lebih baik jika disertakan penjelasan lebih mendalam atau contoh kasus nyata agar mahasiswa lebih paham konteks dan pentingnya csrf_token.
-### 6. Mengakses keempat URL di poin 2 menggunakan Postman, membuat screenshot dari hasil akses URL pada Postman, dan menambahkannya ke dalam README.md.
+
+---
+### 7. Mengakses keempat URL di poin 2 menggunakan Postman, membuat screenshot dari hasil akses URL pada Postman, dan menambahkannya ke dalam README.md.
 - show xml
 ![alt text](<Screenshot 2025-09-17 103421.png>)
 - show json
