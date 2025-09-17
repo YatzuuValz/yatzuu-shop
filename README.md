@@ -38,6 +38,19 @@ Penyerang dapat membuat halaman web jahat yang secara diam-diam mengirim permint
 10. menambahkan function `show_xml` dan `show_json` dan menambahkan path nya
 11. menambahkan function `show_xml_by_id` dan `show_json_by_id` dan menambahkan path nya
 
+### 5. Apakah ada feedback untuk asdos di tutorial 2 yang sudah kalian kerjakan?
+Mungkin untuk feedback dari saya, penjelasan tentang csrf_token di Tutorial 2 terasa terlalu singkat, sehingga beberapa mahasiswa mungkin tidak sepenuhnya memahami fungsinya atau alasan penggunaannya. Akan lebih baik jika disertakan penjelasan lebih mendalam atau contoh kasus nyata agar mahasiswa lebih paham konteks dan pentingnya csrf_token.
+### 6. Mengakses keempat URL di poin 2 menggunakan Postman, membuat screenshot dari hasil akses URL pada Postman, dan menambahkannya ke dalam README.md.
+- show xml
+![alt text](<Screenshot 2025-09-17 103421.png>)
+- show json
+![alt text](<Screenshot 2025-09-17 103436.png>)
+- show xml by id
+![alt text](<Screenshot 2025-09-17 103457.png>)
+-show json by id
+![alt text](<Screenshot 2025-09-17 103504.png>)
+
+
 # tugas2
 ---
 ### 1. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
