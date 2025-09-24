@@ -82,6 +82,13 @@
     <div class="product-price">Rp {{ product.price }}</div>
 
     <div class="product-description">{{ product.description }}</div>
+    {% if product.user %}
+    <p>Author: {{ product.user.username }}</p>
+    {% else %}
+        <p>Author: Anonymous</p>
+    {% endif %}
+
+    {% endblock content %}
 </div>
 
 {% endblock content %}

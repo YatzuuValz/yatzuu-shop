@@ -112,6 +112,16 @@
     <p>Kelas: {{class}} </p>
 </div>
 <a href="{% url 'main:create_product' %}" class="add-btn">+ Tambah Produk</a>
+<a href="{% url 'main:logout' %}">
+  <button>Logout</button>
+</a>
+<h5>Sesi terakhir login: {{ last_login }}</h5>
+<a href="?filter=all">
+    <button type="button">All Porudct</button>
+</a>
+<a href="?filter=my">
+    <button type="button">My Product</button>
+</a> 
 
 <hr>
 
