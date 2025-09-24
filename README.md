@@ -2,6 +2,55 @@
 Link: [https://yahya-muhandar-yatzuushop.pbp.cs.ui.ac.id](https://yahya-muhandar-yatzuushop.pbp.cs.ui.ac.id)
 
 # tugas 3
+### 1. Apa itu Django AuthenticationForm? Jelaskan juga kelebihan dan kekurangannya.
+AuthenticationForm di Django adalah form bawaan untuk login yang memvalidasi username dan password. Kelebihannya mudah digunakan, sudah terhubung dengan sistem autentikasi Django, dan bisa dikustomisasi, sedangkan kekurangannya kurang fleksibel untuk metode login khusus dan tidak menyediakan pembatasan percobaan login.
+
+---
+### 2. Apa perbedaan antara autentikasi dan otorisasi? Bagaiamana Django mengimplementasikan kedua konsep tersebut?
+Autentikasi adalah proses memverifikasi identitas pengguna, sedangkan otorisasi menentukan hak akses setelah identitas diverifikasi. Django mengelola autentikasi dengan authenticate dan login, lalu menerapkan otorisasi lewat permission, group, dan decorator seperti @permission_required.
+
+---
+### 3. Apa saja kelebihan dan kekurangan session dan cookies dalam konteks menyimpan state di aplikasi web?
+Cookies menyimpan state di sisi klien, ringan, dan tidak membebani server, tetapi kapasitasnya kecil dan rentan dicuri. Session lebih aman karena data disimpan di server, namun menambah beban server dan memerlukan sinkronisasi jika menggunakan banyak server.
+
+---
+### 4. Apakah penggunaan cookies aman secara default dalam pengembangan web, atau apakah ada risiko potensial yang harus diwaspadai? Bagaimana Django menangani hal tersebut?
+cookies tidak otomatis aman ada beberapa risiko nyata seperti pencurian lewat XSS (JavaScript membaca cookie), penyadapan lewat koneksi non-HTTPS, CSRF karena browser mengirim cookie otomatis ke domain yang sesuai, serta risiko replay atau session fixation bila cookie persisten tidak dikelola dengan benar. Jadi penggunaan cookie perlu diperlakukan sebagai permukaan serangan yang harus dilindungi, bukan solusi “aman” tanpa konfigurasi tambahan.
+
+Django membantu mengurangi banyak risiko itu dengan beberapa mekanisme: secara umum session di Django menyimpan data di server dan hanya meletakkan session ID di cookie sehingga data sensitif tidak terekspos ke klien, ada middleware CSRF yang memaksa penggunaan token untuk permintaan berbahaya; tersedia pengaturan cookie keamanan (mis. opsi untuk HttpOnly, Secure, dan SameSite) serta SecurityMiddleware untuk pengaturan seperti HSTS dan redirect ke HTTPS. Namun beberapa cookie (mis. cookie CSRF untuk akses AJAX) sengaja tidak dibuat HttpOnly, sehingga masih perlu perhatian developer.
+
+---
+### 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+1. import beberapa library di `views.py` seperti UserCreationForm, messages, AuthenticationForm, authenticate, login, logout, login_required, HttpResponseRedirect, reverse, datetime 
+2. tambahkan method method di `views.py` seperti register, logout_user, login_user, form.is_valid, 
+3. tambahkan @login_required pada showmain dan showproduct di `views.py`
+4. import User di models.py
+5. tambahkan di dalam class product di models.py
+   ```bash 
+   user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+   ```
+6. lakukan migrate untuk models
+7. git push ke github dan pws
+
+---
+
+- show xml
+![alt text](<Screenshot 2025-09-17 103421.png>)
+- show json
+![alt text](<Screenshot 2025-09-17 103436.png>)
+- show xml by id
+![alt text](<Screenshot 2025-09-17 103457.png>)
+-show json by id
+![alt text](<Screenshot 2025-09-17 103504.png>)
+
+
+
+
+
+
+
+
+# tugas 3
 ### 1. Jelaskan mengapa kita memerlukan data delivery dalam pengimplementasian sebuah platform?
 Data delivery diperlukan agar data bisa dikirim dan diterima dengan format yang konsisten antara client, server, dan layanan lain. Ini memungkinkan interaksi pengguna yang dinamis, pemisahan logika dan tampilan, integrasi antar sistem, menjaga keamanan, serta memudahkan pengembangan dan skalabilitas platform.
 
