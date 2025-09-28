@@ -17,9 +17,9 @@ def show_main(request):
     filter_type = request.GET.get("filter", "all")  # default 'all'
 
     if filter_type == "all":
-        product_list = Product.objects.all()
+        product_list = Product.objects.all().order_by("-created_at")
     else:
-        product_list = Product.objects.filter(user=request.user)
+        product_list = Product.objects.filter(user=request.user).order_by("-created_at")
 
     context = {
         'npm' : '2406415936',
@@ -115,3 +115,21 @@ def show_json_by_id(request, product_id):
        return HttpResponse(json_data, content_type="application/json")
    except Product.DoesNotExist:
        return HttpResponse(status=404)
+   
+def edit_product(request, id):
+    products = get_object_or_404(Product, pk=id)
+    form = ProductForms(request.POST or None, instance=products)
+    if form.is_valid() and request.method == 'POST':
+        form.save()
+        return redirect('main:show_main')
+
+    context = {
+        'form': form
+    }
+
+    return render(request, "edit_product.html", context)
+
+def delete_product(request, id):
+    products = get_object_or_404(Product, pk=id)
+    products.delete()
+    return HttpResponseRedirect(reverse('main:show_main'))

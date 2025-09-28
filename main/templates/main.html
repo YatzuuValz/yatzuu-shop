@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
+{% include 'navbar.html' %}
 
 <head>
     <style>
@@ -77,15 +79,8 @@
         }
 
         .view-btn {
-            background: #d10000;
-            color: white;
             padding: 10px 20px;
             border-radius: 6px;
-            text-decoration: none;
-            font-size: 0.9rem;
-            text-align: center;
-            display: block;
-            width: 100%;
         }
 
         .edit-btn,
@@ -103,30 +98,34 @@
     </style>
 
 </head>
-<h1>Selamat datang ke aplikasi {{ ProjectName }}</h1>
-<div
-    style="background-color: rgb(0, 44, 141); width: 20%; border-radius: 5px; padding: 5px 20px; color: white; font-weight: bold; box-shadow: 4px 4px 12px rgb(0, 0, 0); margin-left: 20px;">
-    <p>Developer aplikasi</p>
-    <p>Nama: {{ name }}</p>
-    <p>NPM: {{ npm }} </p>
-    <p>Kelas: {{class}} </p>
-</div>
-<a href="{% url 'main:create_product' %}" class="add-btn">+ Tambah Produk</a>
-<a href="{% url 'main:logout' %}">
-  <button>Logout</button>
-</a>
-<h5>Sesi terakhir login: {{ last_login }}</h5>
-<a href="?filter=all">
-    <button type="button">All Porudct</button>
-</a>
-<a href="?filter=my">
-    <button type="button">My Product</button>
-</a> 
-
-<hr>
 
 
-{% if not product_list %}
+<div class="bg-gray-50 w-full pt-16 min-h-screen">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-gray-900 mb-2">Latest Shops Products</h1>
+      <p class="text-gray-600">Stay updated with the latest Products stories and analysis</p>
+    </div>
+
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 bg-white rounded-lg border border-gray-200 p-4">
+        <div class="flex space-x-3 mb-4 sm:mb-0">
+            <a href="?" class="{% if request.GET.filter == 'all' or not request.GET.filter  %} bg-sky-500 text-white{% else %}bg-white text-gray-700 border border-gray-300{% endif %} px-4 py-2 rounded-md font-medium transition-colors hover:bg-sky-600 hover:text-white">
+            All Products
+            </a>
+            <a href="?filter=my" class="{% if request.GET.filter == 'my' %} bg-sky-500 text-white{% else %}bg-white text-gray-700 border border-gray-300{% endif %} px-4 py-2 rounded-md font-medium transition-colors hover:bg-sky-500 hover:text-white">
+            My Products
+            </a>
+        </div>
+        {% if user.is_authenticated %}
+            <div class="text-sm text-gray-500">
+            Last login: {{ last_login }}
+            </div>
+        {% endif %}
+    </div>
+
+
+<!-- {% if not product_list %}
 <p>Belum ada data product pada Yatzuu shop.</p>
 {% else %}
 <div class="product-grid">
@@ -149,8 +148,42 @@
         <div class="product-actions">
             <a href="{% url 'main:show_product' p.id %}" class="view-btn">Detail</a>
         </div>
+        {% if user.is_authenticated and p.user == user %}
+        <a href="{% url 'main:edit_product' p.pk %}">
+            <button>
+                Edit
+            </button>
+        </a>
+        <a href="{% url 'main:delete_product' p.pk %}">
+            <button>
+                Delete
+            </button>
+        </a>
+    {% endif %}
     </div>
     {% endfor %}
 </div>
-{% endif %}
+{% endif %} -->
+
+
+    {% if not product_list %}
+        <div class="bg-white rounded-lg border border-gray-200 p-12 text-center">
+            <div class="w-32 h-32 mx-auto mb-4">
+            <img src="{% static 'image/no-product.png' %}" alt="No product available" class="w-full h-full object-contain">
+            </div>
+            <h3 class="text-lg font-medium text-gray-900 mb-2">No product found</h3>
+            <p class="text-gray-500 mb-6">Be the first to share football product with the community.</p>
+            <a href="{% url 'main:create_product' %}" class="inline-flex items-center px-4 py-2 bg-sky-500 text-white rounded-md hover:bg-sky-600 transition-colors">
+            Create product
+            </a>
+        </div>
+        {% else %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for product in product_list %}
+            {% include 'card_product.html' with product=product %}
+            {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+</div>
 {% endblock content %}

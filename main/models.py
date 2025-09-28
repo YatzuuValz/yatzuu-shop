@@ -24,6 +24,8 @@ class Product(models.Model):
     rating = models.IntegerField(default=0)
     item_views = models.PositiveIntegerField(default=0)
     is_featured = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
 
     
     def __str__(self):
