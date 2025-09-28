@@ -2,87 +2,156 @@
 {% load static %}
 
 {% block meta %}
-<title>{{ product.title }} - Yatzuu Shop product</title>
+  <title>{{ product.name }} - Yatzuu Shop</title>
 {% endblock meta %}
 
 {% block content %}
 <div class="bg-gray-50 w-full min-h-screen">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        
-        <!-- Back Navigation -->
-        <div class="mb-6">
-            <a href="{% url 'main:show_main' %}" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">
-                ← Back to products
-            </a>
-        </div>
-        
-        <!-- Article -->
-        <article class="bg-white rounded-lg border border-gray-200 overflow-hidden">
-            
-            <!-- Header -->
-            <div class="p-6 sm:p-8">
-                <div class="flex flex-wrap items-center gap-2 mb-4">
-                    <span class="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-sky-500 text-white">
-                        {{ product.get_category_display }}
-                    </span>
-                    {% if product.is_featured %}
-                        <span class="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-yellow-100 text-yellow-800">
-                            Featured
-                        </span>
-                    {% endif %}
-                    {% if product.is_product_hot %}
-                        <span class="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-red-100 text-red-800">
-                            Hot
-                        </span>
-                    {% endif %}
-                </div>
-                
-                <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight mb-4">
-                    {{ product.title }}
-                </h1>
-                
-                <div class="flex flex-wrap items-center text-sm text-gray-500 gap-4">
-                    <time datetime="{{ product.created_at|date:'c' }}">
-                        {{ product.created_at|date:"M j, Y g:i A" }}
-                    </time>
-                    <span>{{ product.item_views }} views</span>
-                </div>
-            </div>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-            <!-- Featured Image -->
-            {% if product.thumbnail %}
-                <div class="px-6 sm:px-8">
-                    <img src="{{ product.thumbnail }}" 
-                         alt="{{ product.title }}" 
-                         class="w-full h-64 sm:h-80 lg:h-96 object-cover rounded-lg">
-                </div>
-            {% endif %}
-
-            <!-- Content -->
-            <div class="p-6 sm:p-8">
-                <div class="prose prose-lg max-w-none">
-                    <div class="text-gray-700 leading-relaxed whitespace-pre-line text-base sm:text-lg">
-                        {{ product.content }}
-                    </div>
-                </div>
-            </div>
-
-            <!-- Author Info -->
-            <div class="border-t border-gray-200 p-6 sm:p-8 bg-gray-50">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <div class="font-medium text-gray-900">
-                            {% if product.user %}
-                                <p>Author: {{ product.user.username }}</p>
-                            {% else %}
-                                <p>Author: Anonymous</p>
-                            {% endif %}
-                        </div>
-                        <p class="text-sm text-gray-500">Author</p>
-                    </div>
-                </div>
-            </div>
-        </article>
+    <!-- Back -->
+    <div class="mb-6">
+      <a href="{% url 'main:show_main' %}" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">
+        ← Back to products
+      </a>
     </div>
+
+    <!-- Product detail -->
+    <article class="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
+      <!-- Header -->
+      <div class="p-6 sm:p-8">
+        <div class="flex flex-wrap items-center gap-2 mb-4">
+          <span class="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-sky-500 text-white">
+            {{ product.get_category_display }}
+          </span>
+
+          {% if product.is_featured %}
+            <span class="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-yellow-100 text-yellow-800">
+              Featured
+            </span>
+          {% endif %}
+
+          {% if product.is_recommended %}
+            <span class="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-red-100 text-red-800">
+              Recommended
+            </span>
+          {% endif %}
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight mb-4">
+          {{ product.name }}
+        </h1>
+
+        <div class="flex flex-wrap items-center text-sm text-gray-500 gap-4">
+          <time datetime="{{ product.created_at|date:'c' }}">
+            {{ product.created_at|date:"M j, Y g:i A" }}
+          </time>
+          <span>•</span>
+          <span>{{ product.item_views }} views</span>
+        </div>
+      </div>
+
+      <!-- Image -->
+      {% if product.thumbnail %}
+        <div class="px-6 sm:px-8">
+          <img src="{{ product.thumbnail }}" 
+               alt="{{ product.name }}" 
+               class="w-full h-64 sm:h-80 lg:h-96 object-cover rounded-lg">
+        </div>
+      {% endif %}
+
+      <!-- Main content -->
+      <div class="p-6 sm:p-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- Left: description -->
+          <div class="lg:col-span-2">
+            <div class="prose prose-lg max-w-none">
+              <div class="text-gray-700 leading-relaxed whitespace-pre-line text-base sm:text-lg">
+                {{ product.description }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: info panel -->
+          <aside class="lg:col-span-1 bg-gray-50 border border-gray-100 rounded-md p-4">
+            <div class="mb-4">
+              <div class="text-sm text-gray-500">Price</div>
+              <div class="text-xl font-semibold text-gray-900">Rp {{ product.price }}</div>
+            </div>
+
+            <div class="mb-4">
+              <div class="text-sm text-gray-500">Shipping (ongkir)</div>
+              <div class="text-base text-gray-800">Rp {{ product.ongkir }}</div>
+            </div>
+
+            <div class="mb-4">
+              <div class="text-sm text-gray-500">Rating</div>
+              <div class="flex items-center gap-2 mt-1">
+                <div class="text-sm text-gray-800"> {{ product.rating }} / 5</div>
+                {# star images (optional) - put 0.png..5.png in static/image/ if you use them #}
+                {% if product.rating == 0 %}
+                  <img src="{% static 'image/0.png' %}" alt="0-star" class="h-5">
+                {% elif product.rating == 1 %}
+                  <img src="{% static 'image/1.png' %}" alt="1-star" class="h-5">
+                {% elif product.rating == 2 %}
+                  <img src="{% static 'image/2.png' %}" alt="2-star" class="h-5">
+                {% elif product.rating == 3 %}
+                  <img src="{% static 'image/3.png' %}" alt="3-star" class="h-5">
+                {% elif product.rating == 4 %}
+                  <img src="{% static 'image/4.png' %}" alt="4-star" class="h-5">
+                {% else %}
+                  <img src="{% static 'image/5.png' %}" alt="5-star" class="h-5">
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <div class="text-sm text-gray-500">Views</div>
+              <div class="text-sm text-gray-800 mt-1">{{ product.item_views }}</div>
+            </div>
+
+            <!-- Action buttons -->
+            <div class="mt-4 space-y-2">
+              {% if user.is_authenticated and product.user == user %}
+                <a href="{% url 'main:edit_product' product.id %}" class="block text-center py-2 rounded-md bg-sky-400 hover:bg-sky-500 text-white font-medium">
+                  Edit Product ✏️
+                </a>
+                <a href="{% url 'main:delete_product' product.id %}" class="block text-center py-2 rounded-md border border-red-400 text-red-600 hover:bg-red-600 hover:text-white transition-colors">
+                  Delete Product 🗑️
+                </a>
+              {% else %}
+                <a href="#" class="block w-full text-center py-2 rounded-md bg-green-600 hover:bg-green-700 text-white font-medium">
+                  Add to Cart 🛒
+                </a>
+                <a href="#" class="block w-full text-center py-2 rounded-md bg-sky-100 hover:bg-sky-200 text-sky-700">
+                  Message Seller 🗣️
+                </a>
+              {% endif %}
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <!-- Author / footer -->
+      <div class="border-t border-gray-200 p-6 sm:p-8 bg-gray-50">
+        <div class="flex items-center justify-between">
+          <div>
+            <div class="font-medium text-gray-900">
+              {% if product.user %}
+                Author: {{ product.user.username }}
+              {% else %}
+                Author: Anonymous
+              {% endif %}
+            </div>
+            <p class="text-sm text-gray-500">Seller</p>
+          </div>
+          <div class="text-sm text-gray-500">
+            Posted: {{ product.created_at|date:"M j, Y" }}
+          </div>
+        </div>
+      </div>
+    </article>
+
+  </div>
 </div>
 {% endblock content %}

@@ -31,7 +31,7 @@
   </div>
 
   <!-- Content -->
-  <div class="p-5">
+  <div class="p-5 flex flex-col">
     <div class="flex items-center text-sm text-gray-500 mb-3">
       <time datetime="{{ product.created_at|date:'c' }}">
         {{ product.created_at|date:"M j, Y" }}
@@ -45,29 +45,26 @@
         {{ product.name }}
       </a>
     </h3>
-    <p class="text-gray-600 text-sm leading-relaxed line-clamp-3 mb-1">
+    <p class="text-gray-900 text-md leading-relaxed line-clamp-3 mb-1">
       Rp. {{ product.price}}
     </p>
-    <p class="text-gray-600 text-sm leading-relaxed line-clamp-3 mb-1">
-      Rating: {{ product.rating}}
-    </p>
     {%if product.rating == 0 %}
-      <img src="{% static 'image/0.png' %}" alt="No product available" class="w-auto h-5 mb-3 object-contain">
+      <img src="{% static 'image/0.png' %}" alt="0-Star" class="w-auto h-5 mb-3 object-contain">
     {%elif product.rating <= 1%}
-      <img src="{% static 'image/1.png' %}" alt="No product available" class="w-auto h-5 mb-3 object-contain">
+      <img src="{% static 'image/1.png' %}" alt="1-Star" class="w-auto h-5 mb-3 object-contain">
     {%elif product.rating <= 2%}
-      <img src="{% static 'image/2.png' %}" alt="No product available" class="w-auto h-5 mb-3 object-contain">
+      <img src="{% static 'image/2.png' %}" alt="2-Star" class="w-auto h-5 mb-3 object-contain">
     {%elif product.rating <= 3%}
-      <img src="{% static 'image/3.png' %}" alt="No product available" class="w-auto h-5 mb-3 object-contain">
+      <img src="{% static 'image/3.png' %}" alt="3-Star" class="w-auto h-5 mb-3 object-contain">
     {%elif product.rating <= 4%}
-      <img src="{% static 'image/4.png' %}" alt="No product available" class="w-auto h-5 mb-3 object-contain">
+      <img src="{% static 'image/4.png' %}" alt="4-Star" class="w-auto h-5 mb-3 object-contain">
     {%else%}
-      <img src="{% static 'image/5.png' %}" alt="No product available" class="w-auto h-5 mb-3 object-contain">
+      <img src="{% static 'image/5.png' %}" alt="5-Star" class="w-auto h-5 mb-3 object-contain">
     {%endif%}
     
     <!-- Action Buttons -->
     {% if user.is_authenticated and product.user == user %}
-      <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+      <div class="flex items-center justify-between pt-4 border-t border-gray-100 mt-auto">
         <a href="{% url 'main:show_product' product.id %}" class="text-sky-500 hover:text-sky-700 font-medium text-sm transition-colors">
           details
         </a>
@@ -81,7 +78,7 @@
         </div>
       </div>
       {% else %}
-        <div class="pt-4 border-t border-gray-100">
+        <div class="pt-4 border-t border-gray-100 mt-auto">
           <a href="{% url 'main:show_product' product.id %}" class="block rounded-md w-full py-2 text-white text-center bg-sky-400 hover:bg-sky-500 transition-colors">Detail</a>
         </div>
       {% endif %}

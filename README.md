@@ -1,7 +1,63 @@
 # Yatzuu-Shop
 Link: [https://yahya-muhandar-yatzuushop.pbp.cs.ui.ac.id](https://yahya-muhandar-yatzuushop.pbp.cs.ui.ac.id)
 
-# tugas 3
+# tugas 5
+### 1. Jika terdapat beberapa CSS selector untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan CSS selector tersebut!
+urutan css selector adalah sebagai berikut
+1. inline css
+karena css ini ditetap kan ditag nya itu sendiri jadi hanya tag itu saja yang terpengaruhi
+2. id selector
+sama dengan inline css dimana hanya 1 tag saja yang terpengaruhi. namun karena css di tetapkan di file berbeda atau menggunakan tag <style></style> selector ini jadi priortoas kedua
+3. Class selector
+bisa banyak tag dengan dan elemen berbeda beda. asalkan elemen tersebut memiliki class yang sesuai
+4. element selector
+semua elemen yang di selec akan terpengaruhi oleh dan tidak memandang id maupun class. oleh karena itu selector ini jadi last priority
+jadi css akan menerapkan styling dari priority terbawah dan menimpa dengan higher pririty jika ada style yang ditimpa
+
+---
+### 2. Mengapa responsive design menjadi konsep yang penting dalam pengembangan aplikasi web? Berikan contoh aplikasi yang sudah dan belum menerapkan responsive design, serta jelaskan mengapa!
+responsive penting karena kita tidak tau user akan menggunakan perangkat apa, sedangkan kita butuh agar user senyaman mungkin menggunakan website yang kita buat. oleh karena itu tampilan yang diberikan untuk setiap device harus dapat menyesuaikan.
+contoh responsive:
+twitter(web),tokopedia, shopee. jika kita buka websitenya di hp dan di desktop tampilanya akan terlihat berbeda. nampak dari jumlah gridnya, headernya, dll
+
+contoh tidak responsive:
+kebanyakan dari website sekarang sudah pasti responsive. namun biasanya yang tidak responsivee adalah website situs pemerintah yang sudah lama belum di update. website tokokecil. jadi jika kita buk di hp website ini tulisanya tidak membesar layoutnya tetap seperti desktop atau sebaliknya
+
+
+---
+### 3.  Jelaskan perbedaan antara margin, border, dan padding, serta cara untuk mengimplementasikan ketiga hal tersebut!
+Margin: adalah space yang diberikan untuk diluar box atau elemen
+border: adalah garis tepi yang ada pada elemen berada di antara margin dan padding
+padding:adalah space antara elemen itu dengan elemen didalamnya seperti text div lain atau apapun itu.
+implementasi
+margin= css:margin: 0px atau margin-top/bottom/left/right: 0px tailwind:m-10 mt/b/l/r/x/y-10 
+margin= css:`border-width:2px; border-style:solid; border-color:black; `tailwind: `border-2 border-solid border-black`
+padding= css:padding: 0px atau padding-top/bottom/left/right: 0px tailwind:p-10 pt/b/l/r/x/y-10 
+
+---
+### 4. Jelaskan konsep flex box dan grid layout beserta kegunaannya!
+flexbox: berfungsi untuk mengatur 1 dimensi saja. elemen yang berada didalam flexbox akan bisa di atur posisinya dengan flexible seperti ditengah elemen di kanan atas atau bawah kiri.
+
+kegunaan: flexbox biasanya digunakan untuk membuat navbar menyusun elemen yang ada di dalam sebuah div atau elemen apapun. seperti pada `card_product.html` 
+
+grid: grid berfungsi seperti 2 dimensi. mengatur 1 dimensi, berarti dimensi yang ke 2 nya mengikuti. grid digunakan untuk menetapkan sebuah div berapa coloumn atau row yang bisa ditampung. jika ditetapkan 3 buah row maka untuk column nya bisa sebanyak mungkin dan sebaliknya.
+
+kegunaan: biasanya digunakan ketika membuat sebuah layout yang banyak seperti vidio vidio yang ada di youtube atau digunakan pada project footballnews dibagian menunjukan berbagai news
+
+### 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
+1. tambahkan tailwind ke project dengan menambahkan `<script src="https://cdn.tailwindcss.com"> </script>` ke base.html
+2. menambahkan function `edit_product` dan `delete_product`
+3. membuat file `edit_product.html` sekalian dengan tailwind classnya
+4. menghubungkan function editnews dan delete news ke html melalui `urls.py`
+5. membuat file `navbar.html` didalam  folder templates disebelah `base.html` dengan tailwind classnya
+6. membuat folder static di main root. setelah itu diisi dengan folder css dan image
+7. menambahkan file global.css di folder `/static/css`
+8. menambahkan pada `setting.py` logic agar folder static atau file yang ada di folder static dapat di detect di app
+9. styling html yang lain menggunakan tailwind. terlebih di bagian main, card_product dan product_detail
+
+
+
+# tugas 4
 ### 1. Apa itu Django AuthenticationForm? Jelaskan juga kelebihan dan kekurangannya.
 AuthenticationForm di Django adalah form bawaan untuk login yang memvalidasi username dan password. Kelebihannya mudah digunakan, sudah terhubung dengan sistem autentikasi Django, dan bisa dikustomisasi, sedangkan kekurangannya kurang fleksibel untuk metode login khusus dan tidak menyediakan pembatasan percobaan login.
 
