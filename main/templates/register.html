@@ -115,4 +115,34 @@
     </div>
   </div>
 </div>
+<script>
+document.querySelector("form").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const username = document.querySelector("#username").value;
+  const password1 = document.querySelector("#password1").value;
+  const password2 = document.querySelector("#password2").value;
+
+  const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+  const response = await fetch("{% url 'main:ajax_register' %}", {
+    method: "POST",
+    headers: {
+      "X-CSRFToken": csrfToken,
+      "X-Requested-With": "XMLHttpRequest",
+    },
+    body: new URLSearchParams({ username, password1, password2 }),
+  });
+
+  const data = await response.json();
+
+  if (data.success) {
+    alert(data.message);
+    window.location.href = "{% url 'main:login' %}";
+  } else {
+    alert(data.message);
+  }
+});
+</script>
+
 {% endblock content %}

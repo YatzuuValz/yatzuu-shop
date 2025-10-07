@@ -1,189 +1,314 @@
 {% extends 'base.html' %}
 {% load static %}
+
+{% block meta %}
+<title>Yatzuu Shop</title>
+{% endblock meta %}
+
 {% block content %}
+{% include 'toast.html' %}
+{% include 'modal.html' %}
+{% include 'editModal.html' %}
+{% include 'deleteModal.html' %}
 {% include 'navbar.html' %}
 
-<head>
-    <style>
-        .page-title {
-            text-align: center;
-            color: #d10000;
-            margin: 30px 0 20px;
-        }
-
-        .add-btn {
-            box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.1);
-            display: inline-block;
-            margin: 20px 0 30px 20px;
-            background: #d10000;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
-            padding: 20px;
-        }
-
-        .product-card {
-            background: #fff;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .product-image {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-        }
-
-        .product-content {
-            padding: 15px;
-        }
-
-        .product-title {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-        }
-
-        .product-title a {
-            text-decoration: none;
-            color: #222;
-        }
-
-        .product-desc {
-            font-size: 0.9rem;
-            color: #555;
-            margin-bottom: 10px;
-        }
-
-        .product-meta {
-            font-size: 0.85rem;
-            color: #777;
-            line-height: 1.4;
-        }
-
-        .product-actions {
-            display: flex;
-            justify-content: space-between;
-            padding: 15px;
-            border-top: 1px solid #eee;
-        }
-
-        .view-btn {
-            padding: 10px 20px;
-            border-radius: 6px;
-        }
-
-        .edit-btn,
-        .delete-btn {
-            background: #d10000;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-size: 0.85rem;
-            text-align: center;
-            flex: 1;
-            margin: 0 3px;
-        }
-    </style>
-
-</head>
 
 
 <div class="bg-gray-50 w-full pt-16 min-h-screen">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-    <div class="mb-8">
-      <h1 class="text-3xl font-bold text-gray-900 mb-2">Latest Shops Products</h1>
-      <p class="text-gray-600">Stay updated with the latest Products stories and analysis</p>
-    </div>
-
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 bg-white rounded-lg border border-gray-200 p-4">
-        <div class="flex space-x-3 mb-4 sm:mb-0">
-            <a href="?" class="{% if request.GET.filter == 'all' or not request.GET.filter  %} bg-sky-500 text-white{% else %}bg-white text-gray-700 border border-gray-300{% endif %} px-4 py-2 rounded-md font-medium transition-colors hover:bg-sky-600 hover:text-white">
-            All Products
-            </a>
-            <a href="?filter=my" class="{% if request.GET.filter == 'my' %} bg-sky-500 text-white{% else %}bg-white text-gray-700 border border-gray-300{% endif %} px-4 py-2 rounded-md font-medium transition-colors hover:bg-sky-500 hover:text-white">
-            My Products
-            </a>
+        <!-- Header Section -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">Latest Shops Products</h1>
+            <p class="text-gray-600">Stay updated with the latest Products</p>
         </div>
-        {% if user.is_authenticated %}
-            <div class="text-sm text-gray-500">
-            Last login: {{ last_login }}
+        <button onclick="showModal()"
+            class="inline-flex items-center px-4 py-2 bg-white text-green-600 font-semibold outline outline-2 outline-green-600 outline-offset-[-2px] rounded-md hover:bg-green-600 hover:text-white transition-colors mb-4">
+            Create Product with Modal
+        </button>
+
+        <!-- Filter Section -->
+        <div
+            class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 bg-white rounded-lg border border-gray-200 p-4">
+            <div class="flex space-x-3 mb-4 sm:mb-0">
+                <a id="filter-all" class="">
+                    All Products
+                </a>
+                <a id="filter-my" class="">
+                    My Products
+                </a>
             </div>
-        {% endif %}
-    </div>
+            {% if user.is_authenticated %}
+            <div class="text-sm text-gray-500">
+                Last login: {{ last_login }}
+            </div>
+            {% endif %}
+        </div>
+        <!-- <button onclick="showToast('Sample Title', 'This is a sample message for the toast notification.')">
+            Click to Show Toast
+        </button> -->
 
-
-<!-- {% if not product_list %}
-<p>Belum ada data product pada Yatzuu shop.</p>
-{% else %}
-<div class="product-grid">
-    {% for p in product_list %}
-    <div class="product-card">
-        <img src="{{ p.thumbnail }}" alt="{{ p.name }}" class="product-image">
-
-        <div class="product-content">
-            <h2 class="product-title">
-                <a href="{% url 'main:show_product' p.id %}">{{ p.name }}</a>
-            </h2>
-            <p class="product-desc">{{ p.description|truncatewords:15 }}</p>
-            <p class="product-meta">
-                Harga: Rp{{ p.price }}<br>
-                Kategori: {{ p.get_category_display }}<br>
-                Views: {{ p.item_views }}
-            </p>
+        <!-- Loading State -->
+        <div id="loading" class="bg-white rounded-lg border border-gray-200 p-12 text-center hidden">
+            <svg class="animate-spin h-8 w-8 text-green-600 inline-block" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+            </svg>
+            <p class="text-gray-600 mt-3">Loading Product...</p>
         </div>
 
-        <div class="product-actions">
-            <a href="{% url 'main:show_product' p.id %}" class="view-btn">Detail</a>
-        </div>
-        {% if user.is_authenticated and p.user == user %}
-        <a href="{% url 'main:edit_product' p.pk %}">
-            <button>
-                Edit
-            </button>
-        </a>
-        <a href="{% url 'main:delete_product' p.pk %}">
-            <button>
-                Delete
-            </button>
-        </a>
-    {% endif %}
-    </div>
-    {% endfor %}
-</div>
-{% endif %} -->
+        <!-- Error State -->
+        <div id="error" class="hidden"></div>
 
+        <!-- Product Grid -->
+        <div id="grid" class="hidden"></div>
 
-    {% if not product_list %}
-        <div class="bg-white rounded-lg border border-gray-200 p-12 text-center">
+        <!-- Empty State -->
+        <div id="empty" class="bg-white rounded-lg border border-gray-200 p-12 text-center hidden">
             <div class="w-32 h-32 mx-auto mb-4">
-            <img src="{% static 'image/no-product.png' %}" alt="No product available" class="w-full h-full object-contain">
+                <img src="{% static 'image/no-product.png' %}" alt="No product available"
+                    class="w-full h-full object-contain">
             </div>
             <h3 class="text-lg font-medium text-gray-900 mb-2">No product found</h3>
             <p class="text-gray-500 mb-6">Be the first to share football product with the community.</p>
-            <a href="{% url 'main:create_product' %}" class="inline-flex items-center px-4 py-2 bg-sky-500 text-white rounded-md hover:bg-sky-600 transition-colors">
-            Create product
+            <a href="{% url 'main:create_product' %}"
+                class="inline-flex items-center px-4 py-2 bg-sky-500 text-white rounded-md hover:bg-sky-600 transition-colors">
+                Create product
             </a>
         </div>
-        {% else %}
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {% for product in product_list %}
-            {% include 'card_product.html' with product=product %}
-            {% endfor %}
-        </div>
-        {% endif %}
-      </div>
+    </div>
 </div>
+
+
+
+
+
+
+<script>
+    // Configuration
+    const PRODUCT_API_ENDPOINT = "{% url 'main:show_json' %}";
+    const CURRENT_USER_ID = "{{ user.id|default_if_none:'' }}";
+
+    // DOM Elements
+    const loadingSpinner = document.getElementById('loading');
+    const errorMessage = document.getElementById('error');
+    const emptyStateDisplay = document.getElementById('empty');
+    const productGridContainer = document.getElementById('grid');
+    const showAllProductButton = document.getElementById('filter-all');
+    const showMyProductButton = document.getElementById('filter-my');
+
+    // State Variables
+    let activeFilter = 'all';
+    let allProductData = [];
+
+    // Update filter button appearance
+    function updateFilterButtonsAppearance() {
+        if (!showAllProductButton || !showMyProductButton) return;
+
+        if (activeFilter === 'all') {
+            showAllProductButton.className = 'cursor-pointer bg-sky-500 text-white px-4 py-2 rounded-md font-medium transition-colors hover:bg-sky-600 hover:text-white';
+            showMyProductButton.className = 'cursor-pointer bg-white text-gray-700 border border-gray-300 px-4 py-2 rounded-md font-medium transition-colors hover:bg-sky-500 hover:text-white';
+        } else {
+            showAllProductButton.className = 'cursor-pointer bg-white text-gray-700 border border-gray-300 px-4 py-2 rounded-md font-medium transition-colors hover:bg-sky-600 hover:text-white';
+            showMyProductButton.className = 'cursor-pointer bg-sky-500 text-white px-4 py-2 rounded-md font-medium transition-colors hover:bg-sky-500 hover:text-white';
+        }
+    }
+
+    // Show/hide page sections
+    function displayPageSection({ showLoading = false, showError = false, showEmpty = false, showGrid = false }) {
+        loadingSpinner.classList.toggle('hidden', !showLoading);
+        errorMessage.classList.toggle('hidden', !showError);
+        emptyStateDisplay.classList.toggle('hidden', !showEmpty);
+        productGridContainer.classList.toggle('hidden', !showGrid);
+
+        // Add grid classes when showing grid
+        if (showGrid) {
+            productGridContainer.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
+        }
+    }
+
+    // Get readable category name
+    function getReadableCategoryName(categoryCode) {
+        const categoryMapping = {
+            jersey: 'Jersey',
+            boots: 'Football Boots',
+            ball: 'Football',
+            accessory: 'Accessories',
+            training: 'Training Equipment',
+            merch: 'Merchandise',
+        };
+        return categoryMapping[categoryCode] || categoryCode;
+    }
+
+    // Create product card element
+    function buildProductCardElement(item) {
+        const article = document.createElement('article');
+        article.className = 'bg-white rounded-lg border border-gray-200 hover:shadow-lg transition-shadow duration-300 overflow-hidden';
+
+        const linkDetail = `{% url 'main:show_product' '00000000-0000-0000-0000-000000000000' %}`.replace('00000000-0000-0000-0000-000000000000', item.id);
+        const linkEdit = `{% url 'main:edit_product' '00000000-0000-0000-0000-000000000000' %}`.replace('00000000-0000-0000-0000-000000000000', item.id);
+        const linkDelete = `{% url 'main:delete_product' '00000000-0000-0000-0000-000000000000' %}`.replace('00000000-0000-0000-0000-000000000000', item.id);
+
+        const name = DOMPurify.sanitize(item.name);
+        const price = DOMPurify.sanitize(item.price);
+        const ongkir = DOMPurify.sanitize(item.ongkir);
+        const description = DOMPurify.sanitize(item.description);
+        const thumbnail = DOMPurify.sanitize(item.thumbnail);
+        const category = DOMPurify.sanitize(item.category);
+        const rating = DOMPurify.sanitize(item.rating);
+        const item_views = DOMPurify.sanitize(item.item_views);
+        const is_featured = DOMPurify.sanitize(item.is_featured);
+        const createdAt = DOMPurify.sanitize(new Date(item.created_at).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        }));
+        const is_recommended = DOMPurify.sanitize(item.is_recommended);
+
+        const thumbnailHtml = DOMPurify.sanitize(
+            item.thumbnail ? `<img src='${thumbnail}' alt='${name}' class='w-full h-full object-cover'>` : `<div class="w-full h-full bg-gray-200"></div>`
+        );
+        const categoryLabel = DOMPurify.sanitize(getReadableCategoryName(category));
+        const featuredLabel = is_featured && DOMPurify.sanitize(`<span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-yellow-100 text-yellow-800">Featured</span>`);
+        const recommendedLabel = is_recommended && DOMPurify.sanitize(`<span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-red-100 text-red-800">Recommended</span>`);
+        const ratingLabel = `<img src="/static/image/${rating == 0 ? 0 : rating <= 1 ? 1 : rating <= 2 ? 2 : rating <= 3 ? 3 : rating <= 4 ? 4 : 5}.png" alt="${Math.round(rating)}-Star" class="w-auto h-5 mb-3 object-contain">`;
+
+        const editDeleteHtml = CURRENT_USER_ID && Number(CURRENT_USER_ID) === Number(item.user_id)
+            ? `
+            <div class="flex items-center justify-between pt-4 border-t border-gray-100 mt-auto">
+                <a href="${linkDetail}" class="text-sky-500 hover:text-sky-700 font-medium text-sm transition-colors">
+                    details
+                </a>
+                <div class="flex items-center space-x-2">
+                    <button onclick='openEditModal(${JSON.stringify(item)})' class="rounded-md bg-sky-400 hover:bg-sky-500 py-2 px-3 text-blue-50 hover:text-blue-50 text-sm transition-colors">
+                        Edit ✏️
+                    </button>
+                    
+                    <button onclick="openDeleteModal('${item.id}')" class="rounded-md py-2 px-3 border-solid border-1 border hover:bg-red-600 hover:text-red-50 text-red-600 hover:text-red-700 text-sm transition-colors">
+                        Delete 🗑️
+                    </button>
+                </div>
+            </div>`
+            : ` <div class="pt-4 border-t border-gray-100 mt-auto">
+                    <a href="${linkDetail}" class="block rounded-md w-full py-2 text-white text-center bg-sky-400 hover:bg-sky-500 transition-colors">Detail</a>
+                </div>`
+            ;
+
+        const cardHtml = `
+        <!-- Thumbnail -->
+        <div class="aspect-[16/9] relative overflow-hidden">
+          ${thumbnailHtml}
+
+          <!-- Category Badge -->
+          <div class="absolute top-3 left-3">
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-green-600 text-white">${categoryLabel}</span>
+          </div>
+
+          <!-- Status Badges -->
+          <div class="absolute top-3 right-3 flex space-x-2">
+            ${featuredLabel}
+            ${recommendedLabel}
+          </div>
+        </div>
+        <!-- Content -->
+        <div class="p-5 flex flex-col">
+          <div class="flex items-center text-sm text-gray-500 mb-3">
+            <time>${createdAt}</time>
+            <span class="mx-2">•</span>
+            <span>${item_views} views</span>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-3 line-clamp-2 leading-tight">
+            <a href="${linkDetail}" class="hover:text-sky-500 transition-colors">
+                ${name}
+            </a>
+          </h3>
+          <p class="text-gray-900 text-md leading-relaxed line-clamp-3 mb-1">
+            ${price}
+          </p>
+          ${ratingLabel}
+          <!-- Action Buttons -->
+            ${editDeleteHtml}
+        </div>
+    `;
+
+        article.innerHTML = cardHtml;
+        return article;
+    }
+
+    // Render all product cards
+    function renderAllProductCards(productItems) {
+        productGridContainer.innerHTML = '';
+        productItems.forEach(productItem => {
+            const cardElement = buildProductCardElement(productItem);
+            productGridContainer.appendChild(cardElement);
+        });
+    }
+
+    // Filter and display product
+    function filterAndDisplayProduct() {
+        updateFilterButtonsAppearance();
+
+        const filteredProduct = activeFilter === 'all'
+            ? allProductData
+            : allProductData.filter(product => Number(product.user_id) === Number(CURRENT_USER_ID));
+
+        if (filteredProduct.length === 0) {
+            displayPageSection({ showEmpty: true });
+        } else {
+            renderAllProductCards(filteredProduct);
+            displayPageSection({ showGrid: true });
+        }
+    }
+
+    // Fetch product data from server
+    async function fetchProductFromServer() {
+        try {
+            displayPageSection({ showLoading: true });
+
+            const response = await fetch(PRODUCT_API_ENDPOINT, {
+                headers: { 'Accept': 'application/json' },
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch product data from server');
+            }
+
+            const productData = await response.json();
+            allProductData = productData || [];
+
+            filterAndDisplayProduct();
+        } catch (error) {
+            console.error('Error loading product:', error);
+            displayPageSection({ showError: true });
+        }
+    }
+
+    // Event handlers
+    function handleShowAllProductClick() {
+        activeFilter = 'all';
+        filterAndDisplayProduct();
+    }
+
+    function handleShowMyProductClick() {
+        activeFilter = 'my';
+        filterAndDisplayProduct();
+    }
+
+    // Initialize page
+    function initializeProductPage() {
+        showAllProductButton.addEventListener('click', handleShowAllProductClick);
+        showMyProductButton.addEventListener('click', handleShowMyProductClick);
+
+        fetchProductFromServer();
+    }
+
+    // Start application
+    initializeProductPage();
+
+    document.addEventListener('productAdded', function () {
+        // Refresh data without page reload
+        fetchNewsFromServer();
+    });
+</script>
 {% endblock content %}
