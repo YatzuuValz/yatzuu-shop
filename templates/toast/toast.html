@@ -1,0 +1,70 @@
+<!-- toast.html -->
+<div id="toast-container" class="fixed top-20 right-5 z-50 space-y-3"></div>
+
+<script>
+    function showToast(type, title, message) {
+        const container = document.getElementById("toast-container");
+        if (!container) return;
+
+        // Buat elemen toast
+        const toast = document.createElement("div");
+        const bgColor =
+            type === "success" ? "bg-green-100 border-green-400 text-green-700" :
+                type === "error" ? "bg-red-100 border-red-400 text-red-700" :
+                    "bg-gray-100 border-gray-400 text-gray-700";
+
+        toast.className = `border-l-4 p-4 rounded-lg shadow-md w-80 animate-slideIn ${bgColor}`;
+
+        toast.innerHTML = `
+    <div class="flex items-start">
+      <div class="flex-1">
+        <p class="font-semibold">${title}</p>
+        <p class="text-sm mt-1">${message}</p>
+      </div>
+      <button class="ml-4 text-gray-500 hover:text-gray-800" onclick="this.parentElement.parentElement.remove()">✕</button>
+    </div>
+  `;
+
+        container.appendChild(toast);
+
+        // Hilangkan otomatis setelah 3.5 detik
+        setTimeout(() => {
+            toast.classList.add("animate-slideOut");
+            setTimeout(() => toast.remove(), 500);
+        }, 3500);
+    }
+</script>
+
+<style>
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateX(50px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes slideOut {
+        from {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        to {
+            opacity: 0;
+            transform: translateX(50px);
+        }
+    }
+
+    .animate-slideIn {
+        animation: slideIn 0.4s ease-out;
+    }
+
+    .animate-slideOut {
+        animation: slideOut 0.4s ease-in;
+    }
+</style>

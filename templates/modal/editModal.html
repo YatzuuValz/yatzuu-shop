@@ -170,8 +170,8 @@
       }
 
       // success: hide modal, toast, dispatch event so list can refresh
+      showToast("success", "Product is Updated", "Your product has been changed successfully!");
       hideEditModal();
-      showToast('Product updated!', '', 'success');
       document.dispatchEvent(new CustomEvent('productUpdated', { detail: { id: productId } }));
     } catch (err) {
       console.error('Network error while updating product', err);
@@ -185,7 +185,6 @@
   // Attach submit handler to the update button
   document.getElementById('updateProductBtn').addEventListener('click', function (e) {
     e.preventDefault();
-    window.location.reload();
     submitEditProduct();
   });
 

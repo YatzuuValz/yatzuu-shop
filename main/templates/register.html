@@ -19,42 +19,29 @@
 
         <form id="register-form" class="space-y-5">
           {% csrf_token %}
-          
+
           <div>
             <label for="username" class="block text-sm font-medium text-gray-700 mb-2">Username</label>
-            <input 
-              id="username" 
-              name="username" 
-              type="text" 
-              required 
-              class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-sky-500 transition duration-200" 
+            <input id="username" name="username" type="text" required
+              class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-sky-500 transition duration-200"
               placeholder="Choose a username">
           </div>
 
           <div>
             <label for="password1" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
-            <input 
-              id="password1" 
-              name="password1" 
-              type="password" 
-              required 
-              class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-sky-500 transition duration-200" 
+            <input id="password1" name="password1" type="password" required
+              class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-sky-500 transition duration-200"
               placeholder="Create a password">
           </div>
 
           <div>
             <label for="password2" class="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
-            <input 
-              id="password2" 
-              name="password2" 
-              type="password" 
-              required 
-              class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-sky-500 transition duration-200" 
+            <input id="password2" name="password2" type="password" required
+              class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-sky-500 transition duration-200"
               placeholder="Confirm your password">
           </div>
 
-          <button 
-            type="submit" 
+          <button type="submit"
             class="w-full bg-sky-500 text-white font-medium py-3 px-4 rounded hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 transition duration-200">
             Create Account
           </button>
@@ -62,7 +49,7 @@
 
         <div class="mt-6 text-center">
           <p class="text-gray-500 text-sm">
-            Already have an account? 
+            Already have an account?
             <a href="{% url 'main:login' %}" class="text-sky-500 hover:text-sky-700 font-medium">
               Sign In
             </a>
@@ -74,52 +61,54 @@
 </div>
 
 <script>
-document.querySelector("#register-form").addEventListener("submit", async function(e) {
-  e.preventDefault();
+  document.querySelector("#register-form").addEventListener("submit", async function (e) {
+    e.preventDefault();
 
-  const username = document.querySelector("#username").value.trim();
-  const password1 = document.querySelector("#password1").value.trim();
-  const password2 = document.querySelector("#password2").value.trim();
-  const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-  const messageBox = document.getElementById("message-box");
+    const username = document.querySelector("#username").value.trim();
+    const password1 = document.querySelector("#password1").value.trim();
+    const password2 = document.querySelector("#password2").value.trim();
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const messageBox = document.getElementById("message-box");
 
-  messageBox.classList.add("hidden");
+    messageBox.classList.add("hidden");
 
-  try {
-    const response = await fetch("{% url 'main:ajax_register' %}", {
-      method: "POST",
-      headers: {
-        "X-CSRFToken": csrfToken,
-        "X-Requested-With": "XMLHttpRequest",
-      },
-      body: new URLSearchParams({ username, password1, password2 }),
-    });
+    try {
+      const response = await fetch("{% url 'main:ajax_register' %}", {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": csrfToken,
+          "X-Requested-With": "XMLHttpRequest",
+        },
+        body: new URLSearchParams({ username, password1, password2 }),
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    // Styling for success/error
-    messageBox.classList.remove("hidden");
-    messageBox.classList.remove("bg-red-50", "border-red-200", "text-red-700", "bg-sky-50", "border-sky-200", "text-sky-700");
+      // Styling for success/error
+      messageBox.classList.remove("hidden");
+      messageBox.classList.remove("bg-red-50", "border-red-200", "text-red-700", "bg-sky-50", "border-sky-200", "text-sky-700");
 
-    if (data.success) {
-      messageBox.textContent = data.message || "Account created successfully!";
-      messageBox.classList.add("bg-sky-50", "border-sky-200", "text-sky-700");
+      if (data.success) {
+        messageBox.textContent = data.message || "Account created successfully!";
+        messageBox.classList.add("bg-sky-50", "border-sky-200", "text-sky-700");
+        showToast("success", "Account Created", data.message);
 
-      // Redirect after short delay
-      setTimeout(() => {
-        window.location.href = "{% url 'main:login' %}";
-      }, 1000);
-    } else {
-      messageBox.textContent = data.message || "Registration failed.";
+        // Redirect after short delay
+        setTimeout(() => {
+          window.location.href = "{% url 'main:login' %}";
+        }, 1000);
+      } else {
+        showToast("error", "Registration Failed", data.message);
+        messageBox.textContent = data.message || "Registration failed.";
+        messageBox.classList.add("bg-red-50", "border-red-200", "text-red-700");
+      }
+
+    } catch (error) {
+      messageBox.textContent = "An error occurred. Please try again.";
+      messageBox.classList.remove("hidden");
       messageBox.classList.add("bg-red-50", "border-red-200", "text-red-700");
     }
-
-  } catch (error) {
-    messageBox.textContent = "An error occurred. Please try again.";
-    messageBox.classList.remove("hidden");
-    messageBox.classList.add("bg-red-50", "border-red-200", "text-red-700");
-  }
-});
+  });
 </script>
 
 {% endblock content %}

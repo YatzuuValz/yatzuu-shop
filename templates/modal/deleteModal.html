@@ -1,0 +1,105 @@
+<!-- Delete Confirmation Modal -->
+<div id="deleteConfirmModal" class="hidden fixed inset-0 z-[9999] flex items-center justify-center bg-black/40">
+    <div class="bg-white rounded-2xl shadow-lg p-6 w-[320px]">
+        <h2 class="text-lg font-semibold text-gray-800 mb-6 text-center">Are you sure?</h2>
+
+        <div class="flex justify-center gap-4">
+            <button id="cancelDeleteBtn"
+                class="px-4 py-2 rounded-full border border-gray-400 text-gray-700 hover:bg-gray-100 transition">
+                Cancel
+            </button>
+            <button id="confirmDeleteBtn"
+                class="px-4 py-2 rounded-full bg-red-500 hover:bg-red-600 text-white font-medium transition">
+                Delete
+            </button>
+        </div>
+    </div>
+</div>
+<script>
+  // Elements
+  const deleteConfirmModal = document.getElementById('deleteConfirmModal');
+  const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+  const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+
+  let productToDelete = null;
+
+  // Open modal
+  function openDeleteModal(productId) {
+    productToDelete = productId;
+    deleteConfirmModal.classList.remove('hidden');
+  }
+
+  // Close modal (silent)
+  function closeDeleteModal() {
+    productToDelete = null;
+    deleteConfirmModal.classList.add('hidden');
+  }
+
+  // User clicks cancel
+  cancelDeleteBtn.addEventListener('click', () => {
+    showToast("error", "Delete Canceled", "Your product is still there!");
+    closeDeleteModal();
+  });
+
+  // Helper: read csrftoken cookie (if you still need it)
+  function getCookie(name) {
+    const v = document.cookie.split('; ').find(row => row.startsWith(name + '='));
+    return v ? decodeURIComponent(v.split('=')[1]) : null;
+  }
+
+  // User confirms delete
+  confirmDeleteBtn.addEventListener('click', async () => {
+    if (!productToDelete) return;
+
+    confirmDeleteBtn.disabled = true;
+    confirmDeleteBtn.textContent = 'Deleting...';
+
+    try {
+      const url = `/product/${productToDelete}/delete`; // matches urls.py
+      console.log('[delete] POST', url);
+
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": getCookie("csrftoken"),
+          "X-Requested-With": "XMLHttpRequest"
+        },
+        body: JSON.stringify({ _method: 'DELETE' }) // optional payload
+      });
+
+      console.log('[delete] response status', res.status);
+
+      // Try to parse JSON safely
+      let data = null;
+      const contentType = res.headers.get('content-type') || '';
+      if (contentType.includes('application/json')) {
+        data = await res.json();
+      } else {
+        const text = await res.text();
+        console.warn('[delete] non-json response', text);
+        throw new Error('Server did not return JSON (status ' + res.status + ')');
+      }
+
+      if (res.ok && data && data.success) {
+        showToast("success", "Product Deleted", data.message || "Your product has been removed successfully!");
+        // call the existing function you already have in main.js
+        if (typeof fetchProductFromServer === 'function') {
+          await fetchProductFromServer();
+        } else {
+          console.warn('fetchProductFromServer() is not defined — product list won\'t auto refresh.');
+        }
+      } else {
+        // server returned success=false or non-OK status
+        showToast("error", "Delete Failed", (data && data.message) || ("Status " + res.status));
+      }
+    } catch (err) {
+      console.error('Delete error:', err);
+      showToast("error", "Network Error", "Failed to communicate with the server.");
+    } finally {
+      confirmDeleteBtn.disabled = false;
+      confirmDeleteBtn.textContent = 'Delete';
+      closeDeleteModal();
+    }
+  });
+</script>

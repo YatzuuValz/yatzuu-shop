@@ -1,7 +1,9 @@
 <!-- Modal -->
-<div id="crudModal" class="hidden fixed inset-0 z-[999] w-full flex items-center justify-center bg-gray-800 bg-opacity-50">
-  <div id="crudModalContent" class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/5 md:w-1/2 lg:w-2/5 xl:w-1/3 max-h-screen overflow-y-auto transition-all transform opacity-0 scale-95">
-    
+<div id="crudModal"
+  class="hidden fixed inset-0 z-[999] w-full flex items-center justify-center bg-gray-800 bg-opacity-50">
+  <div id="crudModalContent"
+    class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/5 md:w-1/2 lg:w-2/5 xl:w-1/3 max-h-screen overflow-y-auto transition-all transform opacity-0 scale-95">
+
     <!-- Modal Header -->
     <div class="flex items-center justify-between p-4 border-b">
       <div>
@@ -35,11 +37,14 @@
         <div class="mb-4 flex gap-4">
           <div class="w-1/2">
             <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
-            <input type="number" id="price" name="price" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2" placeholder="Enter price" required>
+            <input type="number" id="price" name="price"
+              class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2" placeholder="Enter price" required>
           </div>
           <div class="w-1/2">
             <label for="ongkir" class="block text-sm font-medium text-gray-700">Ongkir</label>
-            <input type="number" id="ongkir" name="ongkir" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2" placeholder="Enter shipping cost" required>
+            <input type="number" id="ongkir" name="ongkir"
+              class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2" placeholder="Enter shipping cost"
+              required>
           </div>
         </div>
 
@@ -47,15 +52,15 @@
         <div class="mb-4">
           <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
           <textarea id="description" name="description" rows="3"
-            class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2"
-            placeholder="Describe your product" required></textarea>
+            class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2" placeholder="Describe your product"
+            required></textarea>
         </div>
 
         <!-- Category -->
         <div class="mb-4">
           <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
-          <select id="category" name="category"
-            class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2" required>
+          <select id="category" name="category" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2"
+            required>
             <option value="">Choose a category</option>
             <option value="jersey">Jersey</option>
             <option value="boots">Football Boots</option>
@@ -101,26 +106,26 @@
 
 <script>
   function showModal() {
-      const modal = document.getElementById('crudModal');
-      const modalContent = document.getElementById('crudModalContent');
+    const modal = document.getElementById('crudModal');
+    const modalContent = document.getElementById('crudModalContent');
 
-      modal.classList.remove('hidden'); 
-      setTimeout(() => {
-        modalContent.classList.remove('opacity-0', 'scale-95');
-        modalContent.classList.add('opacity-100', 'scale-100');
-      }, 50); 
+    modal.classList.remove('hidden');
+    setTimeout(() => {
+      modalContent.classList.remove('opacity-0', 'scale-95');
+      modalContent.classList.add('opacity-100', 'scale-100');
+    }, 50);
   }
 
   function hideModal() {
-      const modal = document.getElementById('crudModal');
-      const modalContent = document.getElementById('crudModalContent');
+    const modal = document.getElementById('crudModal');
+    const modalContent = document.getElementById('crudModalContent');
 
-      modalContent.classList.remove('opacity-100', 'scale-100');
-      modalContent.classList.add('opacity-0', 'scale-95');
+    modalContent.classList.remove('opacity-100', 'scale-100');
+    modalContent.classList.add('opacity-0', 'scale-95');
 
-      setTimeout(() => {
-        modal.classList.add('hidden');
-      }, 150); 
+    setTimeout(() => {
+      modal.classList.add('hidden');
+    }, 150);
   }
   async function addProductEntry() {
     await fetch("{% url 'main:add_product_entry_ajax' %}", {
@@ -130,18 +135,15 @@
 
     document.getElementById("productForm").reset();
     hideModal();
-      
-    // Show toast notification
-    showToast('Product added successfully!', '', 'success');
+    showToast("success", "Product Created", "Your product has been added successfully!");
 
     // Dispatch custom event to notify main.html about new data
     document.dispatchEvent(new CustomEvent('productAdded'));
 
     return false;
   }
-  document.getElementById("productForm").addEventListener("submit", function(e) {
+  document.getElementById("productForm").addEventListener("submit", function (e) {
     e.preventDefault();
-    window.location.reload();
     addProductEntry();
-})
+  })
 </script>

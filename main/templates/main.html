@@ -6,10 +6,10 @@
 {% endblock meta %}
 
 {% block content %}
-{% include 'toast.html' %}
-{% include 'modal.html' %}
-{% include 'editModal.html' %}
-{% include 'deleteModal.html' %}
+{% include 'toast/toast.html' %}
+{% include 'modal/modal.html' %}
+{% include 'modal/editModal.html' %}
+{% include 'modal/deleteModal.html' %}
 {% include 'navbar.html' %}
 
 
@@ -30,6 +30,8 @@
         <!-- Filter Section -->
         <div
             class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 bg-white rounded-lg border border-gray-200 p-4">
+
+            <!-- Kiri: Filter -->
             <div class="flex space-x-3 mb-4 sm:mb-0">
                 <a id="filter-all" class="">
                     All Products
@@ -38,15 +40,22 @@
                     My Products
                 </a>
             </div>
+
+            <!-- Tengah: Tombol Refresh -->
+            <div class="flex justify-center mb-4 sm:mb-0">
+                <button id="refresh-products"
+                    class="inline-flex items-center px-4 py-2 bg-sky-500 text-white font-medium rounded-md hover:bg-sky-600 transition-colors">
+                    🔄 Refresh Products
+                </button>
+            </div>
+
+            <!-- Kanan: Last Login -->
             {% if user.is_authenticated %}
-            <div class="text-sm text-gray-500">
+            <div class="text-sm text-gray-500 text-right">
                 Last login: {{ last_login }}
             </div>
             {% endif %}
         </div>
-        <!-- <button onclick="showToast('Sample Title', 'This is a sample message for the toast notification.')">
-            Click to Show Toast
-        </button> -->
 
         <!-- Loading State -->
         <div id="loading" class="bg-white rounded-lg border border-gray-200 p-12 text-center hidden">
@@ -101,6 +110,18 @@
     // State Variables
     let activeFilter = 'all';
     let allProductData = [];
+    // Refresh button functionality
+    const refreshButton = document.getElementById('refresh-products');
+    if (refreshButton) {
+        refreshButton.addEventListener('click', async () => {
+            refreshButton.disabled = true;
+            refreshButton.innerText = 'Refreshing...';
+            await fetchProductFromServer();
+            refreshButton.innerText = '🔄 Refresh Products';
+            refreshButton.disabled = false;
+        });
+    }
+
 
     // Update filter button appearance
     function updateFilterButtonsAppearance() {
@@ -308,7 +329,7 @@
 
     document.addEventListener('productAdded', function () {
         // Refresh data without page reload
-        fetchNewsFromServer();
+        fetchProductFromServer();
     });
 </script>
 {% endblock content %}

@@ -167,10 +167,14 @@ def edit_product(request, id):
 
     return render(request, "edit_product.html", context)
 
+@csrf_exempt
 def delete_product(request, id):
-    products = get_object_or_404(Product, pk=id)
-    products.delete()
-    return HttpResponseRedirect(reverse('main:show_main'))
+    if request.method == "POST":
+        product = get_object_or_404(Product, pk=id)
+        product.delete()
+        return JsonResponse({"success": True, "message": "Product deleted successfully!"})
+    else:
+        return JsonResponse({"success": False, "message": "Invalid request method."}, status=405)
 
 ...
 @csrf_exempt
