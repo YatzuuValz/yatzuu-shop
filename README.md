@@ -2,6 +2,39 @@
 Link: [https://yahya-muhandar-yatzuushop.pbp.cs.ui.ac.id](https://yahya-muhandar-yatzuushop.pbp.cs.ui.ac.id)
 
 # tugas 5
+### 1. Apa perbedaan antara synchronous request dan asynchronous request?
+- Synchronous request berarti ketika browser mengirim permintaan ke server, halaman akan menunggu sampai server memberikan respons.Selama proses itu, pengguna tidak bisa berinteraksi dengan halaman — biasanya halaman akan reload sepenuhnya.
+
+- Asynchronous request (AJAX) berarti browser bisa mengirim dan menerima data dari server tanpa me-reload halaman.
+Prosesnya berjalan di latar belakang, sehingga pengguna tetap bisa berinteraksi dengan halaman sementara data dikirim atau diterima.
+---
+### 2. Bagaimana AJAX bekerja di Django (alur request–response)?
+1. Pengguna melakukan aksi di halaman (misalnya klik tombol “Tambah Produk”).
+2. JavaScript menjalankan fungsi fetch() atau XMLHttpRequest() untuk mengirim data ke URL Django tertentu (biasanya view berbasis JsonResponse).
+3. Django menerima request tersebut di views.py, memproses data (misalnya menyimpan ke database), lalu mengembalikan response dalam format JSON.
+4. JavaScript di browser menerima data JSON itu, lalu memperbarui tampilan halaman (DOM) tanpa reload.
+
+
+---
+### 3.  Apa keuntungan menggunakan AJAX dibandingkan render biasa di Django?
+- Tidak perlu reload halaman, sehingga terasa lebih cepat dan interaktif.
+- Hemat bandwidth, karena hanya data yang dikirim/diterima, bukan seluruh halaman HTML.
+- User experience lebih halus, misalnya saat menambah atau menghapus item langsung muncul di layar.
+- Memungkinkan fitur real-time, seperti notifikasi atau live update.
+---
+### 4.  Bagaimana cara memastikan keamanan saat menggunakan AJAX untuk fitur Login dan Register di Django?
+Gunakan CSRF Token di setiap AJAX POST request. Django memiliki middleware csrf_token yang harus dikirim dalam header request (X-CSRFToken).
+Validasi input di server-side, jangan hanya di JavaScript.
+Gunakan HTTPS agar data (termasuk password) terenkripsi selama pengiriman.
+Batasi endpoint hanya untuk method tertentu (POST untuk login/register, bukan GET).
+
+### 5. Bagaimana AJAX mempengaruhi pengalaman pengguna (User Experience) pada website?
+- Memberikan pengalaman yang lebih cepat dan responsif, karena tidak perlu memuat ulang seluruh halaman.
+- Interaksi terasa lebih mulus dan natural, mirip seperti aplikasi mobile.
+- Pengguna bisa melakukan banyak aksi secara langsung (misalnya edit, delete, tambah) tanpa gangguan.
+- Namun, jika tidak ditangani dengan baik (misalnya error handling buruk), pengguna bisa bingung karena tidak ada feedback yang jelas.
+
+# tugas 5
 ### 1. Jika terdapat beberapa CSS selector untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan CSS selector tersebut!
 urutan css selector adalah sebagai berikut
 1. inline css
